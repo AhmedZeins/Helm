@@ -1,0 +1,19 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: {{ include "chart2.fullname" . }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "chart2.selectorLabels" . | nindent 6 }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        {{- include "chart2.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - name: {{ .Values.rediscontainers.name }}
+        image: {{ .Values.image.repository }}
+        ports:
+        - containerPort: {{ .Values.rediscontainers.containerPort }}
